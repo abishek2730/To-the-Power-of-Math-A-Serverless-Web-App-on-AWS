@@ -118,10 +118,12 @@ All steps are done in the AWS Console. Use the same region for every service.
 - **No authentication on the API.** Add an API key, a Cognito authorizer, or throttling via a usage plan.
 - **Infrastructure is built by hand.** The next step would be to define everything with AWS SAM, CloudFormation or Terraform.
 
-## Cleanup
+## What I Learned
 
-After finishing the project I deleted the AWS resources I created (Amplify app, API, Lambda function, DynamoDB table and IAM policy) to avoid ongoing charges, so the original URLs no longer work. If you build this yourself, do the same when you are done.
-
-## Credits
-
-Built while following a YouTube tutorial on creating a serverless web app with AWS Amplify, API Gateway, Lambda and DynamoDB. The architecture, deployment, debugging and write-up are my own hands-on work.
+- **How AWS services connect.** I linked Amplify, API Gateway, Lambda and DynamoDB into one working application, and saw how a request travels from the browser to the database and back.
+- **IAM and least privilege.** Lambda couldn't write to DynamoDB until I gave its execution role a policy. I used an inline policy limited to one table instead of full access.
+- **CORS.** The API worked in the console but failed from the web page until I enabled CORS for `POST` and `OPTIONS`. I learned why browsers send a preflight request.
+- **Deploying API Gateway.** Changes don't take effect until you click Deploy API to a stage, and the stage name must match the URL in the front end.
+- **Debugging serverless apps.** I tested each layer on its own (Lambda test event, API Gateway test, browser console, DynamoDB table) to find where the problem was.
+- **Cost awareness.** I stayed within the free tier and deleted all resources after finishing to avoid charges.
+- **What I would improve.** Add input validation, restrict CORS to my own domain, secure the API, and rebuild the infrastructure with CloudFormation or Terraform.
